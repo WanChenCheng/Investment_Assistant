@@ -69,7 +69,7 @@ def fetch_price_and_metrics(ticker: str, start_date=None, end_date=None):
 # --------- Streamlit UI ---------
 st.set_page_config(page_title="投資助手", layout="wide")
 
-st.title("📈 投資助手 (Seaborn 版)")
+st.title("📈 投資助手")
 
 menu = st.sidebar.radio("功能選單", ["查詢股票資料", "存多少錢可能退休？"])
 
@@ -193,4 +193,5 @@ elif menu == "存多少錢可能退休？":
 
         except Exception as e:
             st.error(f"下載失敗: {e}")
+
 
