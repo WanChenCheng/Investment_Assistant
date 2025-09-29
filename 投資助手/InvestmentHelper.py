@@ -1,13 +1,15 @@
-# 投資助手 Web 版 (Streamlit)
+# 投資助手 Web 版 (Streamlit + Seaborn)
 import streamlit as st
 import yfinance as yf
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 from datetime import datetime
 
 # --------- 全域參數 ---------
 risk_free_rate = 0
+sns.set_style("whitegrid")  # Seaborn 預設主題
 
 # --------- 工具函式 ---------
 def format_ticker(raw: str, market: str) -> str:
@@ -67,7 +69,7 @@ def fetch_price_and_metrics(ticker: str, start_date=None, end_date=None):
 # --------- Streamlit UI ---------
 st.set_page_config(page_title="投資助手", layout="wide")
 
-st.title("📈 投資助手 (Web 版)")
+st.title("📈 投資助手 (Seaborn 版)")
 
 menu = st.sidebar.radio("功能選單", ["查詢股票資料", "存多少錢可能退休？"])
 
@@ -96,11 +98,10 @@ if menu == "查詢股票資料":
 
             with tab1:
                 fig, ax = plt.subplots(figsize=(8, 4))
-                ax.plot(df["Date"], df["CumReturn"] * 100, color="#1f77b4")
+                sns.lineplot(x="Date", y=df["CumReturn"] * 100, data=df, ax=ax, color="tab:blue")
                 ax.set_title(f"{ticker} 累積報酬率 (%)")
                 ax.set_xlabel("日期")
                 ax.set_ylabel("累積報酬率 (%)")
-                ax.grid(True)
                 st.pyplot(fig)
 
                 st.subheader("績效指標")
@@ -161,11 +162,10 @@ elif menu == "存多少錢可能退休？":
 
                 with tab1:
                     fig, ax = plt.subplots(figsize=(8, 4))
-                    ax.plot(df["Date"], df["Adj Close"], color="#ff7f0e")
+                    sns.lineplot(x="Date", y="Adj Close", data=df, ax=ax, color="tab:orange")
                     ax.set_title(f"{ticker} 調整後收盤價")
                     ax.set_xlabel("日期")
                     ax.set_ylabel("價格")
-                    ax.grid(True)
                     st.pyplot(fig)
 
                     st.subheader("計算結果")
