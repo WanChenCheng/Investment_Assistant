@@ -1,4 +1,5 @@
 seaborn
+plotly
 streamlit
 yfinance
 matplotlib
