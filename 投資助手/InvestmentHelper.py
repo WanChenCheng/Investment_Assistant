@@ -1,15 +1,13 @@
-# 投資助手 Web 版 (Streamlit + Seaborn)
+# 投資助手 Web 版 (Streamlit + Plotly Interactive)
 import streamlit as st
 import yfinance as yf
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+import plotly.express as px
 from datetime import datetime
 
 # --------- 全域參數 ---------
 risk_free_rate = 0
-sns.set_style("whitegrid")  # Seaborn 預設主題
 
 # --------- 工具函式 ---------
 def format_ticker(raw: str, market: str) -> str:
@@ -69,7 +67,7 @@ def fetch_price_and_metrics(ticker: str, start_date=None, end_date=None):
 # --------- Streamlit UI ---------
 st.set_page_config(page_title="投資助手", layout="wide")
 
-st.title("📈 投資助手")
+st.title("📈 投資助手 ")
 
 menu = st.sidebar.radio("功能選單", ["查詢股票資料", "存多少錢可能退休？"])
 
@@ -97,12 +95,15 @@ if menu == "查詢股票資料":
             tab1, tab2 = st.tabs(["📊 圖表", "📋 資料表"])
 
             with tab1:
-                fig, ax = plt.subplots(figsize=(8, 4))
-                sns.lineplot(x="Date", y=df["CumReturn"] * 100, data=df, ax=ax, color="tab:blue")
-                ax.set_title(f"{ticker} Cumulative Return (%)")
-                ax.set_xlabel("Date")
-                ax.set_ylabel("Cumulative Return (%)")
-                st.pyplot(fig)
+                fig = px.line(
+                    df,
+                    x="Date",
+                    y=df["CumReturn"] * 100,
+                    title=f"{ticker} Cumulative Return (%)",
+                    labels={"Date": "Date", "y": "Cumulative Return (%)"},
+                    template="plotly_white"
+                )
+                st.plotly_chart(fig, use_container_width=True)
 
                 st.subheader("績效指標")
                 st.text(
@@ -161,12 +162,15 @@ elif menu == "存多少錢可能退休？":
                 tab1, tab2 = st.tabs(["📊 圖表", "📋 資料表"])
 
                 with tab1:
-                    fig, ax = plt.subplots(figsize=(8, 4))
-                    sns.lineplot(x="Date", y="Adj Close", data=df, ax=ax, color="tab:orange")
-                    ax.set_title(f"{ticker} Adjusted Close")
-                    ax.set_xlabel("Date")
-                    ax.set_ylabel("Price")
-                    st.pyplot(fig)
+                    fig = px.line(
+                        df,
+                        x="Date",
+                        y="Adj Close",
+                        title=f"{ticker} Adjusted Close Price",
+                        labels={"Date": "Date", "Adj Close": "Price"},
+                        template="plotly_white"
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
 
                     st.subheader("計算結果")
                     st.text(
@@ -193,5 +197,3 @@ elif menu == "存多少錢可能退休？":
 
         except Exception as e:
             st.error(f"下載失敗: {e}")
-
-
