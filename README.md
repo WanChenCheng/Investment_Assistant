@@ -1,7 +1,7 @@
 # Investment Assistant
 
 一個投資助手應用程式，提供 **股票績效查詢** 以及 **退休試算** 功能。  
-最初以 `tkinter` 製作桌面版，後續改寫為 **Streamlit Web App** 部署至雲端。
+最初修課時為小組以 `tkinter` 製作桌面版，後續我自己改寫為 **Streamlit Web App** 部署至雲端。
 
 ---
 
