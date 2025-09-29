@@ -99,9 +99,9 @@ if menu == "查詢股票資料":
             with tab1:
                 fig, ax = plt.subplots(figsize=(8, 4))
                 sns.lineplot(x="Date", y=df["CumReturn"] * 100, data=df, ax=ax, color="tab:blue")
-                ax.set_title(f"{ticker} 累積報酬率 (%)")
-                ax.set_xlabel("日期")
-                ax.set_ylabel("累積報酬率 (%)")
+                ax.set_title(f"{ticker} Cumulative Return (%)")
+                ax.set_xlabel("Date")
+                ax.set_ylabel("Cumulative Return (%)")
                 st.pyplot(fig)
 
                 st.subheader("績效指標")
@@ -163,9 +163,9 @@ elif menu == "存多少錢可能退休？":
                 with tab1:
                     fig, ax = plt.subplots(figsize=(8, 4))
                     sns.lineplot(x="Date", y="Adj Close", data=df, ax=ax, color="tab:orange")
-                    ax.set_title(f"{ticker} 調整後收盤價")
-                    ax.set_xlabel("日期")
-                    ax.set_ylabel("價格")
+                    ax.set_title(f"{ticker} Adjusted Close")
+                    ax.set_xlabel("Date")
+                    ax.set_ylabel("Price")
                     st.pyplot(fig)
 
                     st.subheader("計算結果")
@@ -193,3 +193,4 @@ elif menu == "存多少錢可能退休？":
 
         except Exception as e:
             st.error(f"下載失敗: {e}")
+
